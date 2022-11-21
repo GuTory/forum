@@ -16,12 +16,7 @@ public class ForumController {
 
     @GetMapping("/")
     public RedirectView landingSite(){
-        return new RedirectView("/login");
-    }
-
-    @GetMapping("/register")
-    public String registerSite(Model model){
-        return "register";
+        return new RedirectView("login");
     }
 
     @GetMapping("/login")
