@@ -24,6 +24,12 @@ public class Topic {
     @JoinColumn(name = "issuer_id")
     private User issuer;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "Topic_categories",
+            joinColumns = @JoinColumn(name = "Topic_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "categories_id", referencedColumnName = "id"))
+    private List<Category> categories;
+
     public User getIssuer() {
         return issuer;
     }
@@ -31,12 +37,6 @@ public class Topic {
     public void setIssuer(User issuer) {
         this.issuer = issuer;
     }
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "Topic_categories",
-            joinColumns = @JoinColumn(name = "Topic_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "categories_id", referencedColumnName = "id"))
-    private List<Category> categories = new ArrayList<>();
 
     public List<Category> getCategories() {
         if (this.categories == null) this.categories = new ArrayList<>();
@@ -48,8 +48,7 @@ public class Topic {
     }
 
     public void addCategory(Category category) {
-        if(this.categories == null) this.categories = new ArrayList<>();
-        this.categories.add(category);
+        getCategories().add(category);
     }
 
     public void removeCategory(Category category) {

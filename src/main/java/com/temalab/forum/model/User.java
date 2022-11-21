@@ -1,33 +1,34 @@
 package com.temalab.forum.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.ArrayList;
+import com.sun.istack.NotNull;
+
+import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
+@Table(name = "User", indexes = {
+        @Index(name = "idx_user_id", columnList = "Id")
+})
 public class User {
 
-    @javax.persistence.Id
-    @GeneratedValue
-    private Long Id;
-
-<<<<<<< Updated upstream
-=======
+    /**
+     * Only getter for ID
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
     @NotNull
->>>>>>> Stashed changes
     private String userName;
 
+    @NotNull
     private String password;
 
     private String firstName;
 
     private String lastName;
 
-<<<<<<< Updated upstream
-    private String eMail;
-=======
     private String Email;
 
     public Long getId() {
@@ -81,10 +82,4 @@ public class User {
         User user = (User) o;
         return id.equals(user.id) && userName.equals(user.userName);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, userName);
-    }
->>>>>>> Stashed changes
 }
