@@ -13,8 +13,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import javax.persistence.EntityManager;
-
 @SpringBootApplication
 public class ForumApplication implements CommandLineRunner {
 
@@ -49,16 +47,22 @@ public class ForumApplication implements CommandLineRunner {
 		topic.setIssuer(user);
 
 		User elon = new User();
-		user.setUserName("Elon Musk");
-		user.setPassword("tesla");
+		elon.setUserName("Elon Musk");
+		elon.setPassword("tesla");
 
 		Comment comment = new Comment();
 		comment.setResponse("bc I wanna be a trillionaire");
 		comment.setRespondent(elon);
 		comment.setTopic(topic);
 
-		userRepository.save(user);
-		categoryRepository.save(category);
-
+		try {
+			userRepository.save(user);
+			userRepository.save(elon);
+			categoryRepository.save(category);
+			commentRepository.save(comment);
+			topicRepository.save(topic);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

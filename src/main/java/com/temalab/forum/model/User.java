@@ -3,7 +3,6 @@ package com.temalab.forum.model;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "User", indexes = {
