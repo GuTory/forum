@@ -3,6 +3,10 @@ package com.temalab.forum.model;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import java.util.Objects;
 
 @Entity
@@ -19,16 +23,19 @@ public class Comment {
     @NotNull
     private String response;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "topic_id")
+    @NotFound(action = NotFoundAction.IGNORE)
     private Topic topic;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "response_to_id")
+    @NotFound(action = NotFoundAction.IGNORE)
     private Comment responseTo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "respondent_id")
+    @NotFound(action = NotFoundAction.IGNORE)
     private User respondent;
 
     public User getRespondent() {

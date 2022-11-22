@@ -3,6 +3,10 @@ package com.temalab.forum.model;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +29,7 @@ public class Topic {
     private User issuer;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinTable(name = "Topic_categories",
             joinColumns = @JoinColumn(name = "Topic_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "categories_id", referencedColumnName = "id"))
