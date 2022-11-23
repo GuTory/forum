@@ -9,10 +9,12 @@ import com.temalab.forum.repository.CommentRepository;
 import com.temalab.forum.repository.TopicRepository;
 import com.temalab.forum.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -31,14 +33,16 @@ public class ForumController {
     @Autowired
     private CommentRepository commentRepository;
 
-    @GetMapping("/")
-    public String landingSite(){
-        return "redirect:/login";
-    }
+    //@GetMapping("/")
+    //public String landingSite(){
+    //    return "Hi stalker";
+    //}
 
-    @GetMapping("/login")
-    public String loginSite(){
-        return "login";
+    @GetMapping("/")
+    public Map<String, Object> currentUser(OAuth2AuthenticationToken token){
+        Map<String, Object> principal =  token.getPrincipal().getAttributes();
+        System.out.println(principal);
+        return principal;
     }
 
     @GetMapping("/users")
