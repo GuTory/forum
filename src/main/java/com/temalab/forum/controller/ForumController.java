@@ -20,16 +20,12 @@ import java.util.Map;
 @RestController
 public class ForumController {
 
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private TopicRepository topicRepository;
-
     @Autowired
     private CategoryRepository categoryRepository;
-
     @Autowired
     private CommentRepository commentRepository;
 
