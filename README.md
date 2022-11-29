@@ -6,4 +6,4 @@
 
 ## Adatbázis használat
 
-MySQL adatbázist használok a 3306-os default porton, `mydb` adatbázisnévvel, azon belül a táblák generáltak.
+MySQL adatbázist használok a 3306-os default porton, `mydb` adatbázisnévvel, azon belül a táblák generáltak. adatbázis paraméterek a db.properties fájlban

@@ -18,7 +18,7 @@ public class Category {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "parent_category_id")
     @NotFound(action = NotFoundAction.IGNORE)
     private Category parentCategory;
