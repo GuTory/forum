@@ -61,11 +61,9 @@ public class ForumApplication implements CommandLineRunner {
 		topic.setName("Why does my blue badge cost 8$?");
 		topic.setIssuer(user);
 
-
 		elon.setUserName("Elon Musk");
 		elon.setPassword("tesla");
 
-		
 		comment.setResponse("bc I wanna be a trillionaire");
 		comment.setRespondent(elon);
 		comment.setTopic(topic);

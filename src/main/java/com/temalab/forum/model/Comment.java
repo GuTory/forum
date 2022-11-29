@@ -9,6 +9,11 @@ import org.hibernate.annotations.NotFoundAction;
 
 import java.util.Objects;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 @Entity
 @Table(name = "Comment", indexes = {
         @Index(name = "idx_comment_id", columnList = "id")
@@ -38,38 +43,10 @@ public class Comment {
     @NotFound(action = NotFoundAction.IGNORE)
     private User respondent;
 
-    public User getRespondent() {
-        return respondent;
-    }
-
-    public void setRespondent(User respondent) {
-        this.respondent = respondent;
-    }
-
-    public Comment getResponseTo() {
-        return responseTo;
-    }
-
     public void setResponseTo(Comment responseTo) {
         this.responseTo = responseTo;
         if(!this.topic.equals(responseTo.topic))
             this.topic = responseTo.topic;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public void setResponse(String response) {
-        this.response = response;
-    }
-
-    public Topic getTopic() {
-        return topic;
-    }
-
-    public void setTopic(Topic topic) {
-        this.topic = topic;
     }
 
     @Override
