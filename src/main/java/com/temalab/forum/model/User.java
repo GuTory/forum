@@ -27,7 +27,6 @@ public class User {
     @NotNull
     private String userName;
 
-    @NotNull
     private String password;
 
     private String firstName;
@@ -41,6 +40,6 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id.equals(user.id) && userName.equals(user.userName);
+        return Email.equals(user.Email) && userName.equals(user.userName);
     }
 }

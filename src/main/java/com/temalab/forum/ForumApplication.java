@@ -14,7 +14,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ForumApplication implements CommandLineRunner {
+public class ForumApplication {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -30,52 +30,5 @@ public class ForumApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ForumApplication.class, args);
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-		User user = new User();
-		Category category = new Category();
-		Topic topic = new Topic();
-		User elon = new User();
-		Comment comment = new Comment();
-
-		try {
-			userRepository.save(user);
-			userRepository.save(elon);
-			categoryRepository.save(category);
-			commentRepository.save(comment);
-			topicRepository.save(topic);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		user.setUserName("Gutori");
-		user.setPassword("1234");
-
-		
-		category.setName("Twitter posts");
-
-		
-		topic.addCategory(category);
-		topic.setName("Why does my blue badge cost 8$?");
-		topic.setIssuer(user);
-
-		elon.setUserName("Elon Musk");
-		elon.setPassword("tesla");
-
-		comment.setResponse("bc I wanna be a trillionaire");
-		comment.setRespondent(elon);
-		comment.setTopic(topic);
-
-		try {
-			userRepository.save(user);
-			userRepository.save(elon);
-			categoryRepository.save(category);
-			commentRepository.save(comment);
-			topicRepository.save(topic);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }
