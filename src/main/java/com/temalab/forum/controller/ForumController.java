@@ -39,10 +39,7 @@ public class ForumController {
         signedInUser.setPassword(
             null
         );
-        
         return loginUser(signedInUser);
-
-        // TODO: tokenben kapott user elmentése ha még nincs benne a User-ek között
     }
 
     private User loginUser(User user){

@@ -32,7 +32,7 @@ public class Topic {
     @JoinColumn(name = "issuer_id")
     private User issuer;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinTable(name = "Topic_categories",
             joinColumns = @JoinColumn(name = "Topic_id", referencedColumnName = "id"),
