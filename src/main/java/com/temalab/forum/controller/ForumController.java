@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.temalab.forum.model.User;
 import com.temalab.forum.repository.UserRepository;
 
-import java.util.Map;
-
 @RestController
 public class ForumController {
 
