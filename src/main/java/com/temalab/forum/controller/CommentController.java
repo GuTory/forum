@@ -27,7 +27,7 @@ public class CommentController {
     }
 
 
-    @GetMapping("/deleteall")
+    @DeleteMapping("/deleteall")
     public List<Comment> deleteAllComments() {
         commentRepository.deleteAll();
         return commentRepository.findAll();

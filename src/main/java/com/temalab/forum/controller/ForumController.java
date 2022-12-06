@@ -15,7 +15,7 @@ public class ForumController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/")
+    @GetMapping("/mostkelleszgoogle")
     public User currentUser(OAuth2AuthenticationToken token) {
         OAuth2User user = 
             token
@@ -40,6 +40,11 @@ public class ForumController {
         return loginUser(signedInUser);
     }
 
+    @GetMapping
+    public String greet(){
+        return "google autentikacio: /mostkelleszgoogle";
+    }
+
     private User loginUser(User user){
         for(User u: userRepository.findAll()){
             if(u.equals(user)){
@@ -48,7 +53,6 @@ public class ForumController {
         }
         return userRepository.save(user);
     }
-    
-    // TODO: CRUD művelet endpointok minden elemen
+
     // TODO: törlések esetén a constraintek betartása: vagy törlöm a constrainteket vagy a kaszkádolást módosítom
 }

@@ -23,21 +23,75 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Optional<User> findOne(@PathVariable Long id){
+    public Optional<User> findOne(@PathVariable Long id) {
         return userRepository.findById(id);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id){
-        Optional<User> deleteWannabe = userRepository.findById(id);
-        if(deleteWannabe.isPresent())
-            userRepository.delete(deleteWannabe.get());
+    @PostMapping("/new")
+    public ResponseEntity<String> createUser(@RequestBody String username,
+                                             @RequestBody String password,
+                                             @RequestBody String email,
+                                             @RequestBody String firstName,
+                                             @RequestBody String lastname
+    ) {
+        User newUser = new User();
+        newUser.setUserName(username);
+        newUser.setPassword(password);
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastname);
+        newUser.setEmail(email);
+        userRepository.save(newUser);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Long id,
+                                             @RequestBody String username,
+                                             @RequestBody String password,
+                                             @RequestBody String email,
+                                             @RequestBody String firstName,
+                                             @RequestBody String lastname) {
+        Optional<User> opt = userRepository.findById(id);
+        if(opt.isEmpty()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        var u = opt.get();
+        u.setUserName(username);
+        u.setPassword(password);
+        u.setFirstName(firstName);
+        u.setLastName(lastname);
+        u.setEmail(email);
+        userRepository.save(u);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/deleteall")
-    public List<User> deleteall() {
-        userRepository.deleteAll();
-        return userRepository.findAll();
+    @PutMapping("/activate/{id}")
+    public ResponseEntity<String> activateUser(@PathVariable Long id) {
+        Optional<User> activate = userRepository.findById(id);
+        activate.ifPresent(user -> user.setActive(true));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * törléskor nem törlődnek ténylegesen a felhasználók
+     *
+     * @return
+     */
+    @PutMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        Optional<User> deleteWannabe = userRepository.findById(id);
+        deleteWannabe.ifPresent(user -> user.setActive(false));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * törléskor nem törlődnek ténylegesen a felhasználók
+     *
+     * @return
+     */
+    @PutMapping("/deleteall")
+    public ResponseEntity<String> deleteall() {
+        for (User u : userRepository.findAll()) {
+            u.setActive(false);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

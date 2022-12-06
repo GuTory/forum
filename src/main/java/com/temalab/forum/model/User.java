@@ -35,6 +35,8 @@ public class User {
 
     private String Email;
 
+    private boolean active;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

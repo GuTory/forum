@@ -39,12 +39,18 @@ public class Comment {
     private Comment responseTo;
 
     @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "response_comment_id")
+    @NotFound(action = NotFoundAction.IGNORE)
+    private Comment responseComment;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "respondent_id")
     @NotFound(action = NotFoundAction.IGNORE)
     private User respondent;
 
     public void setResponseTo(Comment responseTo) {
         this.responseTo = responseTo;
+        responseTo.setResponseComment(this);
         if(!this.topic.equals(responseTo.topic))
             this.topic = responseTo.topic;
     }

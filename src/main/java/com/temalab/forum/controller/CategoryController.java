@@ -27,7 +27,7 @@ public class CategoryController {
     }
 
 
-    @GetMapping("/deleteall")
+    @DeleteMapping("/deleteall")
     public List<Category> deleteAllCategories() {
         categoryRepository.deleteAll();
         return categoryRepository.findAll();
