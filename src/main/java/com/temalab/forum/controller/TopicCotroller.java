@@ -3,6 +3,7 @@ package com.temalab.forum.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.temalab.forum.services.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,30 +17,55 @@ import com.temalab.forum.repository.TopicRepository;
 public class TopicCotroller {
 
     @Autowired
-    private TopicRepository topicRepository;
+    private TopicService topicService;
 
-    //TODO: CREATE ÉS UPDATE
-    
+    @PostMapping("/new")
+    public ResponseEntity<String> createTopic(@RequestBody String name,
+                                              @RequestBody Long issuerId) {
+        topicService.createEntity(name, issuerId);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> udpateCategory(@PathVariable Long id,
+                                                 @RequestBody String name) {
+        topicService.updateEntity(id, name);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/addcategory/{id}/{cid}")
+    public ResponseEntity<String> addCategory(@PathVariable Long id,
+                                              @PathVariable Long cid) {
+        topicService.addCategory(id, cid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/removecategory/{id}/{cid}")
+    public ResponseEntity<String> removeCategory(@PathVariable Long id,
+                                              @PathVariable Long cid) {
+        topicService.removeCategory(id, cid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping("/deleteall")
     public ResponseEntity<String> deleteAllTopics() {
-        topicRepository.deleteAll();
+        topicService.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteAllTopics(@PathVariable Long id) {
-        var del = topicRepository.findById(id);
-        del.ifPresent(topic -> topicRepository.delete(topic));
+        topicService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    
+
     @GetMapping("/{id}")
-    public Optional<Topic> findOne(@PathVariable Long id){
-        return topicRepository.findById(id);
+    public Optional<Topic> findOne(@PathVariable Long id) {
+        return topicService.findById(id);
     }
 
-    @GetMapping
+    @GetMapping("/")
     public List<Topic> getAllTopics() {
-        return topicRepository.findAll();
+        return topicService.findAll();
     }
 }

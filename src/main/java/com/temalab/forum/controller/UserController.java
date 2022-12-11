@@ -17,7 +17,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping
+    @GetMapping("/")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -72,7 +72,7 @@ public class UserController {
 
     /**
      * törléskor nem törlődnek ténylegesen a felhasználók
-     *
+     * PUTMAPPING, mert nem törlődik ténylegesen a felhasználó
      * @return
      */
     @PutMapping("/delete/{id}")
@@ -84,7 +84,7 @@ public class UserController {
 
     /**
      * törléskor nem törlődnek ténylegesen a felhasználók
-     *
+     * PUTMAPPING, mert nem törlődik ténylegesen a felhasználó
      * @return
      */
     @PutMapping("/deleteall")
