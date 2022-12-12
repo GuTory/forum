@@ -3,9 +3,16 @@ package com.temalab.forum.model;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
-import java.util.List;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import java.util.Objects;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 @Entity
 @Table(name = "Comment", indexes = {
         @Index(name = "idx_comment_id", columnList = "id")
@@ -20,48 +27,31 @@ public class Comment {
     @NotNull
     private String response;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "topic_id")
+    @NotFound(action = NotFoundAction.IGNORE)
     private Topic topic;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "response_to_id")
+    @NotFound(action = NotFoundAction.IGNORE)
     private Comment responseTo;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "response_comment_id")
+    @NotFound(action = NotFoundAction.IGNORE)
+    private Comment responseComment;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "respondent_id")
+    @NotFound(action = NotFoundAction.IGNORE)
     private User respondent;
-
-    public User getRespondent() {
-        return respondent;
-    }
-
-    public void setRespondent(User respondent) {
-        this.respondent = respondent;
-    }
-
-    public Comment getResponseTo() {
-        return responseTo;
-    }
 
     public void setResponseTo(Comment responseTo) {
         this.responseTo = responseTo;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public void setResponse(String response) {
-        this.response = response;
-    }
-
-    public Topic getTopic() {
-        return topic;
-    }
-
-    public void setTopic(Topic topic) {
-        this.topic = topic;
+        responseTo.setResponseComment(this);
+        if(!this.topic.equals(responseTo.topic))
+            this.topic = responseTo.topic;
     }
 
     @Override

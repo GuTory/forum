@@ -3,9 +3,18 @@ package com.temalab.forum.model;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "Topic", indexes = {
         @Index(name = "idx_topic_id", columnList = "id")
@@ -23,39 +32,24 @@ public class Topic {
     @JoinColumn(name = "issuer_id")
     private User issuer;
 
-    public User getIssuer() {
-        return issuer;
-    }
-
-    public void setIssuer(User issuer) {
-        this.issuer = issuer;
-    }
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinTable(name = "Topic_categories",
+            joinColumns = @JoinColumn(name = "Topic_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "categories_id", referencedColumnName = "id"))
     private List<Category> categories;
 
     public List<Category> getCategories() {
+        if (this.categories == null) this.categories = new ArrayList<>();
         return categories;
     }
 
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
+    public void addCategory(Category category) {
+        getCategories().add(category);
     }
 
-    public void addCategory(Category category){this.categories.add(category);}
-
-    public void removeCategory(Category category){this.categories.remove(category);}
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
+    public void removeCategory(Category category) {
+        this.categories.remove(category);
     }
 
     @Override
