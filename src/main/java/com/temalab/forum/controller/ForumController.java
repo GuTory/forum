@@ -40,7 +40,7 @@ public class ForumController {
         return loginUser(signedInUser);
     }
 
-    @GetMapping
+    @GetMapping("/")
     public String greet(){
         return "google autentikacio: /mostkelleszgoogle";
     }
