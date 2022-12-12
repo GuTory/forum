@@ -3,7 +3,6 @@ package com.temalab.forum.model;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
-
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
